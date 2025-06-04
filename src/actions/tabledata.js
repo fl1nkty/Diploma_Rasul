@@ -35,8 +35,7 @@ export const fetchQ3Data = () => async(dispatch) => {
   }
 }
 
-//@query 
-//SELECT * from users where ip_address="86.228.202.112" OR ip_address="125.47.224.245";
+
 export const fetchQ4Data = () => async(dispatch) => {
   try {
     const jsondata = await axios.get('https://aryamitra06.github.io/projectsjson/dummyjson.json')

@@ -1,10 +1,15 @@
-const query = (query = "", action) => {
-    switch (action.type) {
-        case 'QUERY':
-            return action.payload;
-        default:
-            return query;
-    }
-}
+// src/reducers/query.js
 
-export default query;
+// Редьюсер, хранящий текущую SQL-строку (state.query === строка)
+const initialState = '';
+
+const queryReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'SET_QUERY':
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export default queryReducer;

@@ -1,34 +1,60 @@
-import React from 'react'
-import { Button, TextField, Typography } from '@mui/material'
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+// src/components/SQLEditor.jsx
+
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import {setQ} from '../actions/query';
+import { setQuery } from '../actions/query';
+import { Button, TextField, Typography } from '@mui/material';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import TerminalIcon from '@mui/icons-material/Terminal';
 
 function SQLEditor() {
-    const dispatch = useDispatch();
-    const [query, setQuery] = React.useState([]);
+  const dispatch = useDispatch();
+  const [queryText, setQueryText] = React.useState('');
 
-    const handleSubmit = async (e)=> {
-        e.preventDefault()
-        dispatch(setQ(query))
-      }
-      const handleOnChange = (e) => {
-        setQuery({...query,[e.target.name]:e.target.value});
-      }
-      
-    return (
-        <form onSubmit={handleSubmit}>
-                <div style={{display: 'flex', gap: '5px', marginBottom: '15px'}}><TerminalIcon/><Typography>Compiler</Typography></div>
-            <div style={{ display: 'flex' }}>
-                <TextField name='query' fullWidth multiline rows={3} onChange={handleOnChange}></TextField>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <Button type='submit' sx={{ ml: 1 }} startIcon={<PlayCircleIcon />} variant='contained'>RUN</Button>
-                    <Button type='reset' sx={{ ml: 1 }} variant='contained'>RESET</Button>
-                </div>
-            </div>
-        </form>
-    )
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Отправляем в Redux: { type: 'SET_QUERY', payload: queryText }
+    dispatch(setQuery(queryText));
+  };
+
+  return (
+    <form onSubmit={handleSubmit} style={{ marginBottom: 20 }}>
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
+        <TerminalIcon />
+        <Typography variant="h6">Compiler</Typography>
+      </div>
+      <div style={{ display: 'flex', gap: '12px' }}>
+        <TextField
+          name="query"
+          fullWidth
+          multiline
+          rows={3}
+          onChange={(e) => setQueryText(e.target.value)}
+          value={queryText}
+          placeholder="Например: SELECT * FROM users WHERE age > 30;"
+          variant="outlined"
+        />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Button
+            type="submit"
+            startIcon={<PlayCircleIcon />}
+            variant="contained"
+            color="primary"
+          >
+            RUN
+          </Button>
+          <Button
+            type="button"
+            variant="outlined"
+            color="secondary"
+            onClick={() => setQueryText('')}
+          >
+            RESET
+          </Button>
+        </div>
+      </div>
+    </form>
+  );
 }
 
-export default SQLEditor
+export default SQLEditor;
